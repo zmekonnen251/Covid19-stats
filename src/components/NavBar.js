@@ -7,8 +7,8 @@ import { setContinent, setCountry } from '../redux/actions';
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { continent } = useSelector((state) => state.covidData.selectedContinent);
-  const { country } = useSelector((state) => state.covidData.selectedCountry);
+  const { continent } = useSelector((state) => state.covidData);
+  const { country } = useSelector((state) => state.covidData);
   const selectedDate = useSelector((state) => state.covidData.date);
 
   return (
