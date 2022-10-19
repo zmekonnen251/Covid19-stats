@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { BsFillArrowDownRightSquareFill } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
-import { setContinent } from '../redux/reducer';
+import { setContinent } from '../redux/actions';
 
-const ContinentMatrixCard = (props) => {
+const ContinentMatrixCard = ({
+  name, totalConfirmed, totalDeaths,
+}) => {
   const dispatch = useDispatch();
-  const [continent, setContinentLocal] = useState('');
-  const {
-    name, totalConfirmed, totalDeath, onClickSetContinent,
-  } = props;
 
   const continentMatrixClickHandler = () => {
-    setContinentLocal(onClickSetContinent);
+    dispatch(setContinent(name));
   };
-
-  useEffect(() => {
-    dispatch(setContinent(continent));
-  }, [continent]);
 
   return (
     <>
       <NavLink
         to={`continent/${name}`}
         className="rounded-lg opacity-70 relative shadow-xl bg-pink-800  hover:border-0 hover:bg-pink-700 hover:w-[99%] p-8 cursor-pointer flex flex-col justify-end items-end gap-1"
+        onClick={continentMatrixClickHandler}
       >
         <div
           className="absolute inset-3 bottom-8  z-0 opacity-20"
@@ -50,7 +44,7 @@ const ContinentMatrixCard = (props) => {
         </h3>
         <h3 className="text-lg z-10">
           <span className="text-lg sm:text-xl">Total Deaths : </span>
-          <span className="text-2xl">{totalDeath}</span>
+          <span className="text-2xl">{totalDeaths}</span>
         </h3>
         <div className="absolute bottom-1 right-1 flex justify-end z-10">
           <BsFillArrowDownRightSquareFill />
@@ -63,8 +57,7 @@ const ContinentMatrixCard = (props) => {
 ContinentMatrixCard.propTypes = {
   name: PropTypes.string.isRequired,
   totalConfirmed: PropTypes.number.isRequired,
-  totalDeath: PropTypes.number.isRequired,
-  onClickSetContinent: PropTypes.string.isRequired,
+  totalDeaths: PropTypes.number.isRequired,
 };
 
 export default ContinentMatrixCard;

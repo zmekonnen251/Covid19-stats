@@ -8,9 +8,9 @@ const continents = {
     TZ: 'Tanzania',
     SZ: 'Swaziland',
     SD: 'Sudan',
-    ZA: 'South_Africa',
+    ZA: 'South Africa',
     SO: 'Somalia',
-    SL: 'Sierra_Leone',
+    SL: 'Sierra Leone',
     SC: 'Seychelles',
     SN: 'Senegal',
     RW: 'Rwanda',
@@ -27,21 +27,21 @@ const continents = {
     LR: 'Liberia',
     LS: 'Lesotho',
     KE: 'Kenya',
-    GW: 'Guinea_Bissau',
+    GW: 'Guinea Bissau',
     GN: 'Guinea',
     GH: 'Ghana',
     GM: 'Gambia',
     GA: 'Gabon',
     ET: 'Ethiopia',
     ER: 'Eritrea',
-    GQ: 'Equatorial_Guinea',
-    CF: 'Central_African_Republic',
+    GQ: 'Equatorial Guinea',
+    CF: 'Central African Republic',
     EG: 'Egypt',
     DJ: 'Djibouti',
     CI: 'Ivory Coast',
     KM: 'Comoros',
     CG: 'Congo',
-    CD: 'Democratic_Republic_Congo',
+    CD: 'Democratic Republic Congo',
     TD: 'Chad',
     CV: 'Cape Verde',
     CM: 'Cameroon',
@@ -65,7 +65,7 @@ const continents = {
     AR: 'Argentina',
   },
   North_America: {
-    US: 'United_States',
+    US: 'United States',
     PA: 'Panama',
     MX: 'Mexico',
     JM: 'Jamaica',
@@ -74,18 +74,18 @@ const continents = {
     GT: 'Guatemala',
     GP: 'Guadeloupe',
     GD: 'Grenada',
-    DO: 'Dominican_Republic',
+    DO: 'Dominican Republic',
     CU: 'Cuba',
     CA: 'Canada',
     BM: 'Bermuda',
     BZ: 'Belize',
     BB: 'Barbados',
     AI: 'Anguilla',
-    AG: 'Antigua_And_Barbuda',
+    AG: 'Antigua And Barbuda',
     BS: 'Bahamas',
   },
   Europe: {
-    GB: 'United_Kingdom',
+    GB: 'United Kingdom',
     UA: 'Ukraine',
     CH: 'Switzerland',
     SE: 'Sweden',
@@ -97,7 +97,7 @@ const continents = {
     RO: 'Romania',
     PT: 'Portugal',
     TR: 'Turkey',
-    RU: 'Russian_Federation',
+    RU: 'Russian Federation',
     PL: 'Poland',
     NO: 'Norway',
     NL: 'Netherlands',
@@ -120,11 +120,11 @@ const continents = {
     FR: 'France',
     FI: 'Finland',
     EE: 'Estonia',
-    CZ: 'Czech_Republic',
+    CZ: 'Czech Republic',
     DK: 'Denmark',
     HR: 'Croatia',
     BG: 'Bulgaria',
-    BA: 'Bosnia_And_Herzegovina',
+    BA: 'Bosnia And Herzegovina',
     BE: 'Belgium',
     BY: 'Belarus',
     AL: 'Albania',
@@ -140,9 +140,9 @@ const continents = {
     TJ: 'Tajikistan',
     TW: 'Taiwan',
     SY: 'Syria',
-    LK: 'Sri_Lanka',
+    LK: 'Sri Lanka',
     SG: 'Singapore',
-    SA: 'Saudi_Arabia',
+    SA: 'Saudi Arabia',
     QA: 'Qatar',
     PH: 'Philippines',
     IL: 'Palestina',
@@ -167,7 +167,7 @@ const continents = {
     HK: 'Hong_Kong',
     KH: 'Cambodia',
     CN: 'China',
-    BN: 'Brunei_Darussalam',
+    BN: 'Brunei Darussalam',
     BT: 'Bhutan',
     AF: 'Afghanistan',
     BH: 'Bahrain',
@@ -175,23 +175,53 @@ const continents = {
   },
   Oceania: {
     WS: 'Samoa',
-    PG: 'Papua_New_Guinea',
-    NZ: 'New_Zealand',
+    PG: 'Papua New Guinea',
+    NZ: 'New Zealand',
     AU: 'Australia',
     FJ: 'Fiji',
   },
 };
 
 const getContinent = (inputCountry) => {
-  let continetOfInputCountry = '';
+  let countryContinent = '';
   Object.keys(continents).forEach((continent) => {
     Object.values(continents[continent]).forEach((country) => {
       if (inputCountry === country) {
-        continetOfInputCountry = continent;
+        countryContinent = continent;
       }
     });
   });
-  return continetOfInputCountry;
+  return countryContinent;
 };
 
-export default getContinent;
+const loadDataByContinent = (countriesData) => {
+  const continentsData = {
+    Africa: { name: 'Africa', countries: [] },
+    Europe: { name: 'Europe', countries: [] },
+    North_America: { name: 'North_America', countries: [] },
+    Oceania: { name: 'Oceania', countries: [] },
+    Asia: { name: 'Asia', countries: [] },
+    South_America: { name: 'South_America', countries: [] },
+  };
+
+  countriesData.forEach((c) => {
+    // const countryCode = c.CountryCode;
+    const continent = getContinent(c.Country);
+    if (continent) {
+      continentsData[continent].countries.push({
+        id: c.ID,
+        name: c.Country,
+        slug: c.Slug,
+        totalConfirmed: c.TotalConfirmed,
+        totalDeaths: c.TotalDeaths,
+        totalRecovered: c.TotalRecovered,
+        newConfirmed: c.NewConfirmed,
+        newDeaths: c.NewDeaths,
+        newRecovered: c.NewRecovered,
+      });
+    }
+  });
+  return continentsData;
+};
+
+export default loadDataByContinent;

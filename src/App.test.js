@@ -5,22 +5,16 @@ import { Provider } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import {
-  covid19Reducer,
-  continentReducer,
-  countryReducer,
-  setCountry,
-  setContinent,
-} from './redux/reducer';
-import Main from './components/Main';
+import covid19Reducer from './redux/reducers';
+import { setCountry, setContinent } from './redux/actions';
+
 import CountryMatrixCard from './components/CountryMatrixCard';
 import ContinentMatrixCard from './components/ContinentMatrixCard';
 import { SET_COUNTRY, SET_CONTINENT } from './redux/actionTypes';
+import ContinentSelector from './components/ContinentSelector';
 
 const rootReducer = combineReducers({
   covidData: covid19Reducer,
-  continent: continentReducer,
-  country: countryReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -32,7 +26,7 @@ describe('Home Page', () => {
       .create(
         <Provider store={store}>
           <Router>
-            <Main />
+            <ContinentSelector />
           </Router>
         </Provider>,
       )

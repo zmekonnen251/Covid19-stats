@@ -1,43 +1,29 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import { Link, useParams } from 'react-router-dom';
 
 import CountryMatrixCard from './CountryMatrixCard';
 
 const CountriesList = () => {
-  const { continentId } = useParams();
+  const { continentName } = useParams();
 
   const continentData = useSelector(
-    (state) => state.covidData.continents[continentId].countries,
+    (state) => state.covidData.continentsData[continentName].countries,
   );
-  const name = useSelector(
-    (state) => state.covidData.continents[continentId].name,
-  );
-  return (
-    <>
-      <div className="grid grid-cols-1  sm:grid-cols-3 gap-3 m-7 mt-10 p-2">
-        <h1 className="text-center text-5xl my-8 sm:col-span-3">
-          {name.split('_').join(' ')}
-        </h1>
-        {Object.keys(continentData).map((country) => {
-          const countryName = continentData[country].name;
-          const totalConfirmed = continentData[country].today_confirmed;
-          const totalDeath = continentData[country].today_deaths;
 
-          return (
+  return (
+    <div className="mt-[100px] pb-12">
+      <h1 className="text-5xl font-bold  text-center">{continentName}</h1>
+      <div className="grid grid-cols-1  sm:grid-cols-3 gap-3 m-7 mt-10 p-2">
+        {continentData.map((country) => (
+          <Link to={`/country/${country.slug}`} key={country.id}>
             <CountryMatrixCard
-              key={uuidv4()}
-              selectedContinent={continentId}
-              name={countryName}
-              totalConfirmed={totalConfirmed}
-              totalDeath={totalDeath}
-              onClickSetCountry={country}
+              country={country}
             />
-          );
-        })}
+          </Link>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
